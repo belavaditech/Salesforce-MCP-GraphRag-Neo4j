@@ -1,0 +1,19 @@
+<template>
+  <lightning-card title="Graph Schema Manager" icon-name="utility:database">
+    <div class="slds-p-around_medium">
+      <lightning-button label="Build Schema" variant="brand" onclick={handleBuildSchema} class="slds-m-bottom_small"></lightning-button>
+      <lightning-button label="Build KG From PDFs" onclick={handleBuildKG} class="slds-m-bottom_small slds-m-left_small"></lightning-button>
+      <lightning-button label="One-Click Setup" onclick={handleSetupAll} class="slds-m-left_small"></lightning-button>
+
+      <template if:true={loading}>
+        <p class="slds-m-top_small">Working…</p>
+      </template>
+
+      <template if:true={result}>
+        <div class="slds-box slds-m-top_small">
+          <pre>{result}</pre>
+        </div>
+      </template>
+    </div>
+  </lightning-card>
+</template>

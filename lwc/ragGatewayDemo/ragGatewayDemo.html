@@ -1,0 +1,19 @@
+<template>
+  <lightning-card title="Salesforce RAG Gateway Demo">
+    <div class="slds-p-around_medium">
+      <lightning-input label="Your Question" value={userInput} onchange={handleInput}></lightning-input>
+      <lightning-radio-group
+        name="mode"
+        label="Choose Mode"
+        options={modeOptions}
+        value={selectedMode}
+        onchange={handleModeChange}>
+      </lightning-radio-group>
+      <lightning-button label="Submit" onclick={handleSubmit} class="slds-m-top_medium"></lightning-button>
+      <template if:true={response}>
+        <p class="slds-m-top_medium"><strong>Response:</strong></p>
+        <pre>{response}</pre>
+      </template>
+    </div>
+  </lightning-card>
+</template>

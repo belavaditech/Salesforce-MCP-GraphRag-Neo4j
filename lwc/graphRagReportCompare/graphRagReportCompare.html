@@ -1,0 +1,70 @@
+<template>
+  <lightning-card title="GraphRag Report Compare" icon-name="standard:graph">
+    <div class="slds-p-around_medium">
+
+      <lightning-input
+        label="Tool Name"
+        value={toolName}
+        onchange={handleToolChange}
+        placeholder="e.g. run_vector_query"
+      ></lightning-input>
+
+      <lightning-textarea
+        label="Arguments (JSON)"
+        value={argumentsJson}
+        onchange={handleArgsChange}
+        placeholder="Summarize communication challenges between patients and clinicians"
+        rows="5"
+      ></lightning-textarea>
+
+      <div class="slds-m-top_small slds-grid slds-grid_align-spread">
+        <lightning-button
+          label="Run MCP Tool"
+          variant="brand"
+          onclick={callMcp}
+        ></lightning-button>
+      </div>
+
+      <template if:true={loading}>
+        <p class="slds-m-top_small">Running query...</p>
+      </template>
+
+      <!-- ERROR CARD -->
+      <template if:true={error}>
+        <lightning-card title="Error" class="slds-m-top_medium">
+          <pre style="white-space: pre-wrap; color: red;">{error}</pre>
+        </lightning-card>
+      </template>
+
+      <!-- 🧠 VECTOR / TEXT RESULT -->
+      <template if:true={parsedResults.length}>
+        <lightning-card title="Vector Search Results (Readable)">
+          <template for:each={parsedResults} for:item="item">
+            <div key={item.id} class="slds-box slds-theme_default slds-m-vertical_small">
+              <div class="slds-grid slds-grid_align-spread">
+                <div><strong>Rank:</strong> {item.rank}</div>
+                <div><strong>Score:</strong> {item.score}</div>
+              </div>
+              <p class="slds-m-top_x-small">{item.text}</p>
+            </div>
+          </template>
+        </lightning-card>
+      </template>
+
+      <!-- 🧾 STRUCTURED TABLE RESULT -->
+      <template if:true={tableData.length}>
+        <lightning-card title="Structured Output" class="slds-m-top_medium">
+          <lightning-datatable key-field="id" data={tableData} columns={columns}></lightning-datatable>
+        </lightning-card>
+      </template>
+
+      <!-- 🧩 RAW JSON OUTPUT -->
+      <template if:true={rawJson}>
+        <lightning-card title="Raw JSON" class="slds-m-top_medium">
+          <pre style="white-space: pre-wrap;">{rawJson}</pre>
+        </lightning-card>
+      </template>
+
+    </div>
+  </lightning-card>
+</template>

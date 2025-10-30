@@ -1,0 +1,50 @@
+<template>
+  <lightning-card title="MCP Tool Tester" icon-name="standard:bot">
+    <div class="slds-p-around_medium">
+      
+        <h3 class="slds-m-top_small">Tool options...</h3>
+      
+    <ul>
+      <template for:each={tooloptions} for:item="opt">
+        <li key={opt}>{opt}</li>
+      </template>
+    </ul>
+
+      <lightning-input
+        label="Tool Name"
+        value={toolName}
+        onchange={handleToolChange}
+        placeholder="e.g. run_vector_query"
+      ></lightning-input>
+
+      <lightning-textarea
+        label="Arguments (JSON)"
+        value={argumentsJson}
+        onchange={handleArgsChange}
+        placeholder="Summarize communication challenges between patients and clinicians"
+        rows="5"
+      ></lightning-textarea>
+
+      <div class="slds-m-top_small">
+        <lightning-button variant="brand" label="Run MCP Tool" onclick={callMcp}></lightning-button>
+      </div>
+
+      <template if:true={loading}>
+        <p class="slds-m-top_small">Running...</p>
+      </template>
+
+      <template if:true={result}>
+        <lightning-card title="MCP Response" class="slds-m-top_medium">
+          <pre style="white-space: pre-wrap;">{formattedResult}</pre>
+        </lightning-card>
+      </template>
+
+      <template if:true={error}>
+        <lightning-card title="Error" class="slds-m-top_medium">
+          <pre style="white-space: pre-wrap; color: red;">{error}</pre>
+        </lightning-card>
+      </template>
+
+    </div>
+  </lightning-card>
+</template>

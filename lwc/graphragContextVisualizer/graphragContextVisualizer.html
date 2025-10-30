@@ -1,0 +1,74 @@
+<template>
+  <lightning-card title="GraphRAG Context Visualizer" icon-name="standard:chart">
+    <div class="slds-p-around_medium">
+      <lightning-textarea
+        label="Question"
+        value={question}
+        onchange={handleQuestion}
+        placeholder="Ask: How is precision medicine applied to lupus?"
+      ></lightning-textarea>
+
+      <div class="slds-m-top_small">
+        <lightning-button label="Vector" onclick={runVector} class="slds-m-right_small"></lightning-button>
+        <lightning-button label="Hybrid" onclick={runHybrid} variant="brand"></lightning-button>
+      </div>
+
+      <template if:true={loading}>
+        <div class="slds-m-top_medium">
+          <lightning-spinner alternative-text="Running query..." size="medium"></lightning-spinner>
+        </div>
+      </template>
+
+      <div class="slds-grid slds-wrap slds-m-top_medium">
+
+        <!-- 🧠 Vector Results -->
+        <template if:true={hasVector}>
+          <div class="slds-col slds-size_1-of-2 slds-p-right_small">
+            <lightning-card title="Vector Results (Readable)">
+              <template if:true={vectorPreview.length}>
+                <template for:each={vectorPreview} for:item="item">
+                  <div key={item.id} class="slds-box slds-theme_default slds-m-vertical_small">
+                    <div class="slds-grid slds-grid_align-spread">
+                      <div><strong>Rank:</strong> {item.rank}</div>
+                      <div><strong>Score:</strong> {item.score}</div>
+                    </div>
+                    <p class="slds-m-top_x-small" style="white-space: pre-wrap;">{item.text}</p>
+                  </div>
+                </template>
+                <div class="slds-m-top_small">
+                  <lightning-button label={showFullVector} onclick={toggleVector}></lightning-button>
+                </div>
+              </template>
+            </lightning-card>
+          </div>
+        </template>
+
+        <!-- 🧬 Hybrid Results -->
+        <template if:true={hasHybrid}>
+          <div class="slds-col slds-size_1-of-2 slds-p-left_small">
+            <lightning-card title="Hybrid Results (Readable)">
+              
+              <template if:true={hybridReadable.textchunkcontext}>
+                <div class="slds-box slds-theme_default slds-m-vertical_small">
+                  <h3><strong>Text Context</strong></h3>
+                  <p style="white-space: pre-wrap;">{hybridTextPreview}</p>
+                  <lightning-button variant="neutral" label={showFullHybridText} onclick={toggleHybridText}></lightning-button>
+                </div>
+              </template>
+
+              <template if:true={hybridReadable.kgcontext}>
+                <div class="slds-box slds-theme_default slds-m-vertical_small">
+                  <h3><strong>KG Context (Relations)</strong></h3>
+                  <p style="white-space: pre-wrap;">{hybridKGPreview}</p>
+                  <lightning-button variant="neutral" label={showFullHybridKG} onclick={toggleHybridKG}></lightning-button>
+                </div>
+              </template>
+
+            </lightning-card>
+          </div>
+        </template>
+
+      </div>
+    </div>
+  </lightning-card>
+</template>

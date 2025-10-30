@@ -1,0 +1,26 @@
+<template>
+  <lightning-card title="Neo4j / GraphRAG Vector/Vector cypher" icon-name="utility:query">
+    <div class="slds-p-around_medium">
+      <lightning-combobox
+        label="Mode"
+        value={mode}
+        options={modeOptions}
+        onchange={handleModeChange}
+      ></lightning-combobox>
+
+      <lightning-textarea label="Query / Natural Language" value={question} onchange={handleQuestion}></lightning-textarea>
+
+      <div class="slds-m-top_small">
+        <lightning-button label="Run" variant="brand" onclick={runQuery}></lightning-button>
+      </div>
+
+      <template if:true={loading}><p>Running…</p></template>
+
+      <template if:true={output}>
+        <div class="slds-box slds-m-top_small">
+          <pre>{output}</pre>
+        </div>
+      </template>
+    </div>
+  </lightning-card>
+</template>

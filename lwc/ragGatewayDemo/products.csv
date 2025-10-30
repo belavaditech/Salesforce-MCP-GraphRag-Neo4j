@@ -1,0 +1,6 @@
+ProductID,ProductName,Category,Description,TargetCost,TargetQuality
+PD1,Aerospace Widget A,Aerospace,High precision assembly,25000,0.8
+PD2,Aerospace Widget B,Aerospace,Lightweight component,26000,0.78
+PD3,Aerospace Widget C,Aerospace,Medium precision assembly,28000,0.8
+PD4,Aerospace Widget D,Aerospace,Standard assembly,30000,0.77
+PD5,Aerospace Widget E,Aerospace,High-risk / low-volume assembly,27000,0.82
