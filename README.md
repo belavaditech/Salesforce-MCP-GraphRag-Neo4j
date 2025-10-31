@@ -64,6 +64,40 @@ This project showcases four distinct integration methods, leveraging Apex, LWC, 
 
 ![Method 4 – GraphRag Pipeline ](./imgs/method4.jpg)
 
+**Reference:**
+
+https://neo4j.com/docs/neo4j-graphrag-python/current/user_guide_kg_builder.html (KG pipeline)
+https://github.com/neo4j-product-examples/graphrag-python-examples (Example used)
+https://neo4j.com/blog/genai/what-is-graphrag/ (Documentation)
+https://neo4j.com/blog/news/graphrag-python-package/ (Explanation of example)
+https://neo4j.com/docs/neo4j-graphrag-python/current/user_guide_rag.html
+
+
+## 🏗 Architecture Overview
+
+| Layer | Component |
+|-------|----------|
+| UI Layer | **Lightning Web Component (LWC)** |
+| Backend (Salesforce) | **Apex Controller → Named Credentials → HTTP Callouts** |
+| Gateway | **Node.js MCP Client Gateway (Port 9005)** |
+| MCP Services | **Python MCP Server (Port 8005)** exposing tools
+| Data Layer | **Neo4j Graph Database** |
+
+- LWC sends requests → Apex  
+- Apex uses **Named Credentials + ngrok HTTPS endpoint**  
+- Node.js Gateway converts Salesforce HTTP into MCP requests  
+- Python MCP Server hosts tools that translate or execute Cypher
+
+
+## 🎛 Why Apex + Named Credentials?
+
+Salesforce **does not allow direct HTTP calls from LWC** due to security policy. So:
+
+- **Apex makes the callout**
+- **Named Credential exposes the gateway URL**
+- **Ngrok provides temporary HTTPS URL**, because Named Credentials **do not accept HTTP**
+
+![Named credential to access Gateway)](./imgs/namedcredential.jpeg)
 
 ---
 ## 🌍 Testing via cURL
@@ -125,10 +159,12 @@ cd Salesforce-MCP-GraphRag-Neo4j
 ```
 
 1. Configure Neo4j connection credentials.  
-2. Set up MCP server (provided MCP server ) with Neo4j details.  
-3. Create Named Credential in Salesforce for secure endpoint calls.  
-4. Deploy Apex classes and LWC components (provided).  
-5. Configure the LWC components in your application
+2. Setup MCP server (Provided ) with Neo4j details.  
+3. Setup Gateway server (Provided)
+4. Create 2 Named Credentials in Salesforce for secure endpoint calls.  
+5. Deploy provided Apex classes (one for MCP server endpoint 8005, another for Gateway endpoint access 9005)
+6. Deploy LWC components (provided).  
+7. Configure the LWC components in your application
 
 ---
 
