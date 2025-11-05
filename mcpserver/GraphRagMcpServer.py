@@ -61,11 +61,30 @@ rag = GraphRAG(retriever=retriever, llm=llm)
 # =============================================================
 # Node Labels / Relationship Types / Prompt Template
 # =============================================================
-node_labels = ["Document", "Chunk", "Entity", "Supplier", "Component", "Product"]
-rel_types = [
-    "HAS_CHUNK", "HAS_ENTITY", "CAN_SUPPLY", "USED_IN",
-    "SUPPLIES", "MENTIONS", "REFERS_TO", "LINKS_TO"
-]
+
+basic_node_labels = ["Object", "Entity", "Group", "Person", "Organization", "Place"]
+
+academic_node_labels = ["ArticleOrPaper", "PublicationOrJournal"]
+
+medical_node_labels = ["Anatomy", "BiologicalProcess", "Cell", "CellularComponent",
+                       "CellType", "Condition", "Disease", "Drug",
+                       "EffectOrPhenotype", "Exposure", "GeneOrProtein", "Molecule",
+                       "MolecularFunction", "Pathway"]
+
+node_labels = basic_node_labels + academic_node_labels + medical_node_labels
+
+# define relationship types
+rel_types = ["ACTIVATES", "AFFECTS", "ASSESSES", "ASSOCIATED_WITH", "AUTHORED",
+    "BIOMARKER_FOR", "CAUSES", "CITES", "CONTRIBUTES_TO", "DESCRIBES", "EXPRESSES",
+    "HAS_REACTION", "HAS_SYMPTOM", "INCLUDES", "INTERACTS_WITH", "PRESCRIBED",
+    "PRODUCES", "RECEIVED", "RESULTS_IN", "TREATS", "USED_FOR"]
+
+
+# node_labels = ["Document", "Chunk", "Entity", "Supplier", "Component", "Product"]
+# rel_types = [
+#     "HAS_CHUNK", "HAS_ENTITY", "CAN_SUPPLY", "USED_IN",
+#     "SUPPLIES", "MENTIONS", "REFERS_TO", "LINKS_TO"
+# ]
 
 prompt_template = '''
 You are a domain researcher extracting entities and relationships
